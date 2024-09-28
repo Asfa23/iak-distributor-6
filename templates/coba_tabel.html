@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table</title>
+    <script>
+        async function fetchData() {
+            const response = await fetch('/api/distributors6/tb_fix_kirim_distributor');
+            const data = await response.json();
+            const tableBody = document.getElementById('data-table-body');
+
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.berat}</td>
+                    <td>${item.harga_pengiriman}</td>
+                    <td>${item.kota_asal}</td>
+                    <td>${item.kota_tujuan}</td>
+                    <td>${item.lama_pengiriman}</td>
+                    <td>${item.no_resi}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.status}</td>
+                    <td>${item.tanggal_pembelian}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+</head>
+<body>
+    <h1>Data Table</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Berat</th>
+                <th>Harga Pengiriman</th>
+                <th>Kota Asal</th>
+                <th>Kota Tujuan</th>
+                <th>Lama Pengiriman</th>
+                <th>No Resi</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Tanggal Pembelian</th>
+            </tr>
+        </thead>
+        <tbody id="data-table-body">
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+</body>
+</html>

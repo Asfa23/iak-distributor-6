@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SIXEPRESS</title>
+    <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:slnt,wght@-10..0,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/animate/animate.min.css') }}" />
+    <link href="{{ url_for('static', filename='lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        .nav-profile-img img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-profile-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .nav-profile-text span {
+            font-size: 12px;
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-orange" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid nav-bar px-0 py-0">
+        <div class="container">
+            <nav class="navbar navbar-light py-0">
+                <a href="#" class="navbar-brand">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="img-fluid">
+                </a>
+                <div class="navbar ms-auto">
+                    <a class="text-gradient" href="#"><i class="fas fa-sign-out-alt display-6"></i></a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+
+    <!-- Home page start -->
+    <div class="container-fluid bg-white py-0">
+        <div class="container py-2">
+            <div class="col-md-12 col-lg-12 text-center">
+                <span class="fw-bold">Hello, {{ session.get('nama_lengkap', 'user') }}</span>
+                <h1 class="display-5 fw-light mb-2">WELCOME TO <span class="text-gradient fw-bold d-inline">SIXPRESS</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <!-- home page End -->
+
+    <section id="shipment">
+        <!-- Shipment Tracking and Shipping Form Start -->
+        <div class="container-fluid bg-light shipment-section py-2">
+            <div class="container py-5">
+                <div class="row g-5 flex flex-col">
+                    <!-- Shipment List Section -->
+                    <div class="col-xl-6 wow fadeInLeft w-full" data-wow-delay="0.2s">
+                        <div class="shipment-list-content bg-white rounded p-5 h-100 shadow">
+                            <h1 class="display-6 mb-4">Your Shipments</h1>
+
+                            <!-- Shipment Table -->
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <td>ID Log</td>
+                                        <th>Berat</th>
+                                        <th>Harga Pengiriman</th>
+                                        <th>Kota Asal</th>
+                                        <th>Kota Tujuan</th>
+                                        <th>Lama Pengiriman</th>
+                                        <th>No Resi</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Pembelian</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="data-table-body">
+                                    <!-- Shipment rows will be loaded via JavaScript -->
+                                </tbody>
+                            </table>
+
+                            <!-- Pagination -->
+                            <nav>
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Pagination content will be handled via JavaScript -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Form Section -->
+                    <div class="col-xl-6 wow fadeInRight w-full" data-wow-delay="0.2s">
+                        <div class="shipping-form-content bg-white rounded p-5 h-100 shadow">
+                            <h1 class="display-6 mb-4">Make New Shipment</h1>
+
+                            <!-- Shipping Form -->
+                            <form id="shippingForm" action="javascript:void(0);">
+                                <div class="mb-3">
+                                    <label for="idPembelian" class="form-label">Purchase ID</label>
+                                    <input type="text" class="form-control" id="idPembelian"
+                                        placeholder="Enter Purchase ID" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="namaPengirim" class="form-label">Sender Name</label>
+                                    <input type="text" class="form-control" id="namaPengirim"
+                                        placeholder="Enter Sender Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kotaSupplier" class="form-label">Supplier City</label>
+                                    <input type="text" class="form-control" id="kotaSupplier"
+                                        placeholder="Enter Supplier City" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kotaTujuan" class="form-label">Destination City</label>
+                                    <input type="text" class="form-control" id="kotaTujuan"
+                                        placeholder="Enter Destination City" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="packageWeight" class="form-label">Package Weight (kg)</label>
+                                    <input type="number" class="form-control" id="packageWeight"
+                                        placeholder="Enter Package Weight" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">Number of Packages</label>
+                                    <input type="number" class="form-control" id="quantity"
+                                        placeholder="Enter Number of Packages" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-2 px-4">Send Package</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Success Modal -->
+                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="successModalLabel">Shipment Success</h5>
+                                </div>
+                                <div class="modal-body">
+                                    Your shipment has been successfully created!
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary py-2 px-4"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Shipment Tracking and Shipping Form End -->
+    </section>
+
+    <script>
+        const itemsPerPage = 10;
+        let currentPage = 1;
+        let shipments = [];
+
+        async function fetchData() {
+            const spinner = document.getElementById('spinner');
+            spinner.classList.add('show'); // Show spinner
+
+            try {
+                const response = await fetch('/api/distributors6/tb_fix_kirim_distributor');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                shipments = await response.json();
+                renderShipments();
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                alert('Failed to load data. Please check the console for details.');
+            } finally {
+                spinner.classList.remove('show'); // Hide spinner
+            }
+        }
+
+        function renderShipments() {
+            const tbody = document.getElementById('data-table-body');
+            tbody.innerHTML = '';
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedShipments = shipments.slice(start, end);
+
+            paginatedShipments.forEach((shipment) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${shipment.id_log}</td>
+                    <td>${shipment.berat}</td>
+                    <td>${shipment.harga_pengiriman}</td>
+                    <td>${shipment.kota_asal}</td>
+                    <td>${shipment.kota_tujuan}</td>
+                    <td>${shipment.lama_pengiriman}</td>
+                    <td>${shipment.no_resi}</td>
+                    <td>${shipment.quantity}</td>
+                    <td>${shipment.status}</td>
+                    <td>${shipment.tanggal_pembelian}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            const totalPages = Math.ceil(shipments.length / itemsPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageItem.innerHTML = `<a class="page-link" href="javascript:void(0);" onclick="changePage(${i})">${i}</a>`;
+                pagination.appendChild(pageItem);
+            }
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderShipments();
+        }
+
+        document.getElementById('shippingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const idPembelian = document.getElementById('idPembelian').value;
+            const namaPengirim = document.getElementById('namaPengirim').value;
+            const kotaSupplier = document.getElementById('kotaSupplier').value;
+            const kotaTujuan = document.getElementById('kotaTujuan').value;
+            const packageWeight = document.getElementById('packageWeight').value;
+            const quantity = document.getElementById('quantity').value;
+
+            const shipmentData = {
+                id_pembelian: idPembelian,
+                nama_pengirim: namaPengirim,
+                kota_supplier: kotaSupplier,
+                kota_tujuan: kotaTujuan,
+                berat: packageWeight,
+                quantity: quantity
+            };
+
+            const spinner = document.getElementById('spinner');
+            spinner.classList.add('show'); // Show spinner
+
+            try {
+                const response = await fetch('/api/distributors6/tb_fix_kirim_distributor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(shipmentData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send shipment');
+                }
+
+                const result = await response.json();
+                console.log(result);
+                // Reload the shipment data
+                fetchData();
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                alert('Failed to send shipment. Please check the console for details.');
+            } finally {
+                spinner.classList.remove('show'); // Hide spinner
+            }
+        });
+
+        // Call the fetchData function when the page loads
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

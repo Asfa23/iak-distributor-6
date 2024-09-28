@@ -1,62 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Distributor Module</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="utf-8">
+    <title>SIXEPRESS</title>
+    <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:slnt,wght@-10..0,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/animate/animate.min.css') }}" />
+    <link href="{{ url_for('static', filename='lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
 </head>
+
 <body>
-    <h1>Distributor Module</h1>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-orange" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
 
-    <!-- Form untuk Cek Harga Pengiriman -->
-    <section>
-        <h2>Cek Harga Pengiriman</h2>
-        <form id="cekHargaForm">
-            <label for="id_log">ID Log:</label>
-            <input type="number" id="id_log" name="id_log" required><br>
 
-            <label for="kota_asal">Kota Asal:</label>
-            <input type="text" id="kota_asal" name="kota_asal" required><br>
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid nav-bar px-0 py-0">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light py-0">
+                <a href="#" class="navbar-brand">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="img-fluid">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar ms-auto">
+                        <a href="#carousel" class="nav-item nav-link fw-bolder">HOME</a>
+                        <a href="#shipment" class="nav-item nav-link fw-bolder">SHIPMENT</a>
+                        <a href="#services" class="nav-item nav-link fw-bolder">SERVICES</a>
+                        <a href="/login"><i class="text-gradient fa fa-solid fa-user"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
 
-            <label for="kota_tujuan">Kota Tujuan:</label>
-            <input type="text" id="kota_tujuan" name="kota_tujuan" required><br>
+    <section id="carousel">
+        <!-- Carousel Start -->
+        <div class="header-carousel owl-carousel">
+            <div class="header-carousel-item">
+                <div class="container-fluid p-0">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <div class="calrousel-img" style="object-fit: fill;">
+                                <img src="{{ url_for('static', filename='img/carousel1.png') }}" class="img-fluid"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" required><br>
+            <div class="header-carousel-item">
+                <div class="container-fluid p-0">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <div class="calrousel-img" style="object-fit: fill;">
+                                <img src="{{ url_for('static', filename='img/carousel2.png') }}" class="img-fluid"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <label for="berat">Berat (kg):</label>
-            <input type="number" id="berat" name="berat" required><br>
+            <div class="header-carousel-item">
+                <div class="container-fluid p-0">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <div class="calrousel-img" style="object-fit: fill;">
+                                <img src="{{ url_for('static', filename='img/carousel3.png') }}" class="img-fluid"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel End -->
+    </section>
 
-            <button type="submit">Cek Harga</button>
-        </form>
-        <div id="hargaPengiriman"></div>
+    <section id="shipment">
+        <!-- Tracking and Price Check Start -->
+        <div class="container-fluid bg-light tracking-price py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <!-- Track Shipment Section -->
+                    <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="tracking-item-content bg-white rounded p-5 h-100">
+                            <h4 class="text-orange">Track Your Shipment</h4>
+                            <h1 class="display-4 mb-4">Stay Updated on Your Deliveries</h1>
+                            <p>Enter your tracking number to get the latest updates on your shipment status</p>
+
+                            <!-- Tracking form -->
+                            <form id="trackingForm">
+                                <div class="mb-3">
+                                    <label for="trackingNumber" class="form-label">Tracking Number</label>
+                                    <input type="text" class="form-control" id="trackingNumber"
+                                        placeholder="Enter your waybill number" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-2 px-4">Track
+                                    Shipment</button>
+                            </form>
+
+                            <!-- Tracking Result box -->
+                            <div id="trackingResult" class="tracking-result-box mt-4" style="display:none;">
+                                <h5>Shipment Status:</h5>
+                                <div class="result-box bg-light p-4 rounded">
+                                    <p id="trackingStatus" class="fw-bold fs-4 text-center"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Check Section -->
+                    <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="price-check-item-content bg-white rounded p-5 h-100">
+                            <h4 class="text-orange">Check Shipping Prices</h4>
+                            <h1 class="display-4 mb-4">Get Price Estimates</h1>
+                            <p>Calculate shipping costs based on your package weight, destination, and other details</p>
+                            <form id="priceCheckForm">
+                                <div class="mb-3">
+                                    <label for="idPembelian" class="form-label">ID Pembelian</label>
+                                    <input type="text" class="form-control" id="idPembelian"
+                                        placeholder="Enter purchase ID" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kotaSupplier" class="form-label">Kota Supplier</label>
+                                    <input type="text" class="form-control" id="kotaSupplier"
+                                        placeholder="Enter supplier city" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kotaRetail" class="form-label">Kota Retail</label>
+                                    <input type="text" class="form-control" id="kotaRetail"
+                                        placeholder="Enter retail city" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="packageWeight" class="form-label">Package Weight (kg)</label>
+                                    <input type="number" class="form-control" id="packageWeight"
+                                        placeholder="Enter weight" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-2 px-4">Check
+                                    Price</button>
+                            </form>
+
+                            <!-- Price Result box -->
+                            <div id="priceResult" class="price-result-box mt-4" style="display:none;">
+                                <h5>Estimated Shipping Price:</h5>
+                                <div class="result-box bg-light p-4 rounded">
+                                    <p id="shippingPrice" class="fw-bold fs-4 text-center"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tracking and Price Check End -->
     </section>
 
     <script>
-        document.getElementById('cekHargaForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Tracking Form Submission
+        document.getElementById('trackingForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting
 
-            const data = {
-                id_log: parseInt(document.getElementById('id_log').value),
-                kota_asal: document.getElementById('kota_asal').value,
-                kota_tujuan: document.getElementById('kota_tujuan').value,
-                quantity: parseInt(document.getElementById('quantity').value),
-                berat: parseFloat(document.getElementById('berat').value)
-            };
+            // Dummy tracking status options
+            const trackingStatuses = ["Pending", "On Process", "Delivered"];
 
-            fetch('/api/distributors/orders/cek_harga', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('hargaPengiriman').innerHTML = 'Harga Pengiriman: Rp ' + data.harga_pengiriman;
-            })
-            .catch(error => console.error('Error:', error));
+            // Get the user input
+            const trackingNumber = document.getElementById('trackingNumber').value;
+
+            if (trackingNumber) {
+                // Randomly select a tracking status from the array
+                const randomStatus = trackingStatuses[Math.floor(Math.random() * trackingStatuses.length)];
+
+                // Display the result section
+                document.getElementById('trackingResult').style.display = 'block';
+                document.getElementById('trackingStatus').innerText = randomStatus;
+            } else {
+                alert("Please enter a tracking number.");
+            }
         });
+
+        // Price Check Form Submission
+        document.getElementById('priceCheckForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            // Dummy price calculation
+            const weight = document.getElementById('packageWeight').value;
+            const quantity = document.getElementById('quantity').value;
+
+            if (weight && quantity) {
+                const pricePerKg = 10000; // Example price per kg
+                const estimatedPrice = weight * quantity * pricePerKg;
+
+                // Display the result section
+                document.getElementById('priceResult').style.display = 'block';
+                document.getElementById('shippingPrice').innerText = `Rp ${estimatedPrice.toLocaleString()}`;
+            } else {
+                alert("Please enter the required details.");
+            }
+        });
+
     </script>
+
+    <section id="services">
+        <!-- Service Advantages Start -->
+        <div class="container-fluid feature bg-light py-2">
+            <div class="container py-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Why Choose Us?</h4>
+                    <h1 class="display-4 mb-4">Affordable Distribution for Everyone!</h1>
+                    <p class="mb-0">We provide budget-friendly distribution services that ensure your products are
+                        delivered on time and in perfect condition—helping you save while maintaining high standards.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="feature-item p-4 h-100">
+                            <div class="feature-icon p-4 mb-4">
+                                <i class="fas fa-truck fa-3x"></i>
+                            </div>
+                            <h4 class="mb-4">On-Time Delivery</h4>
+                            <p class="mb-0">Reliable and timely deliveries that keep your business running smoothly
+                                without unnecessary delays.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="feature-item p-4 h-100">
+                            <div class="feature-icon p-4 mb-4">
+                                <i class="fas fa-dollar-sign fa-3x"></i>
+                            </div>
+                            <h4 class="mb-4">Cost-Effective Solutions</h4>
+                            <p class="mb-0">Our services are designed to provide the best value, ensuring high-quality
+                                distribution at competitive rates.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="feature-item p-4 h-100">
+                            <div class="feature-icon p-4 mb-4">
+                                <i class="fas fa-sync-alt fa-3x"></i>
+                            </div>
+                            <h4 class="mb-4">Flexible Shipping Options</h4>
+                            <p class="mb-0">We offer flexible shipping options that can be tailored to your budget and
+                                specific requirements.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
+                        <div class="feature-item p-4 h-100">
+                            <div class="feature-icon p-4 mb-4">
+                                <i class="fas fa-headset fa-3x"></i>
+                            </div>
+                            <h4 class="mb-4">24/7 Customer Support</h4>
+                            <p class="mb-0">Our support team is always available to assist you, ensuring a seamless
+                                experience from start to finish.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service Advantages End -->
+    </section>
+
+    <section class="py-5 bg-gradient-primary-to-secondary text-white">
+        <div class="container px-5 my-5">
+            <div class="text-center">
+                <h2 class="display-4 fw-bolder mb-4 text-white">Affordable Distribution for Everyone!</h2>
+                <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" href="/login">Get started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer py-3 wow fadeIn"
+        style="background: linear-gradient(135deg, #dc3545 0%, #ffcc00 100%);">
+        <div class="container py-3">
+            <div class="row g-4">
+                <div class="col-xl-9">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <div class="row g-4">
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="d-flex">
+                                        <div class="btn-xl-square bg-orange text-white rounded p-2 me-3">
+                                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white">Address</h4>
+                                            <p class="mb-0 text-white">Surabaya, Indonesia</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="d-flex">
+                                        <div class="btn-xl-square bg-orange text-white rounded p-2 me-3">
+                                            <i class="fas fa-envelope fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white">Mail Us</h4>
+                                            <p class="mb-0 text-white">6xpress@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="d-flex">
+                                        <div class="btn-xl-square bg-orange text-white rounded p-2 me-3">
+                                            <i class="fa fa-phone-alt fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white">Telephone</h4>
+                                            <p class="mb-0 text-white">(+012) 3456 7890</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Logo Section -->
+                <div class="col-xl-3 text-center">
+                    <img src="{{ url_for('static', filename='img/logo-white.png') }}" alt="Logo" class="img-fluid"
+                        style="max-width: 150px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-orange btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>
