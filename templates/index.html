@@ -139,7 +139,7 @@
                     <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
                         <div class="price-check-item-content bg-white rounded p-5 h-100">
                             <h4 class="text-orange">Check Shipping Prices</h4>
-                            <h1 class="display-4 mb-4 price-estimate-title">Get Price Estimates</h1>
+                            <h1 class="display-4 mb-4 typing-animation2"></h1>
                             <p>Calculate shipping costs based on your package weight, destination, and other details</p>
                             <form id="priceCheckForm">
                                 <div class="mb-3">
@@ -406,45 +406,78 @@
         });
     </script>
     <script>
-        const phrases = [
+        const phrases1 = [
             "Keep Track of Your Shipments.",
             "Monitor Your Delivery Progress.",
             "Stay Informed About Your Packages."
         ];
         
-        let phraseIndex = 0;
-        let charIndex = 0;
-        const typingElement = document.querySelector('.typing-animation');
+        let phraseIndex1 = 0;
+        let charIndex1 = 0;
+        const typingElement1 = document.querySelector('.typing-animation');
     
-        function type() {
-            if (charIndex < phrases[phraseIndex].length) {
-                typingElement.textContent += phrases[phraseIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, 100); // Adjust typing speed here
+        function type1() {
+            if (charIndex1 < phrases1[phraseIndex1].length) {
+                typingElement1.textContent += phrases1[phraseIndex1].charAt(charIndex1);
+                charIndex1++;
+                setTimeout(type1, 100); // Adjust typing speed here
             } else {
                 setTimeout(() => {
-                    erase();
+                    erase1();
                 }, 2000); // Pause before erasing
             }
         }
     
-        function erase() {
-            if (charIndex > 0) {
-                typingElement.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, 50); // Adjust erasing speed here
+        function erase1() {
+            if (charIndex1 > 0) {
+                typingElement1.textContent = phrases1[phraseIndex1].substring(0, charIndex1 - 1);
+                charIndex1--;
+                setTimeout(erase1, 50); // Adjust erasing speed here
             } else {
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(type, 500); // Pause before typing the next phrase
+                phraseIndex1 = (phraseIndex1 + 1) % phrases1.length;
+                setTimeout(type1, 500); // Pause before typing the next phrase
             }
         }
     
-        // Start the typing effect
+        // Start the typing effect for the first element
         window.onload = () => {
-            type();
+            type1();
+            type2(); // Start the second typing effect
         };
-    </script>
+
+        const phrases2 = [
+            "Calculate Your Shipping Costs.",
+            "Get Instant Price Estimates.",
+            "View Cost Estimates."
+        ];
+        
+        let phraseIndex2 = 0;
+        let charIndex2 = 0;
+        const typingElement2 = document.querySelector('.typing-animation2');
     
+        function type2() {
+            if (charIndex2 < phrases2[phraseIndex2].length) {
+                typingElement2.textContent += phrases2[phraseIndex2].charAt(charIndex2);
+                charIndex2++;
+                setTimeout(type2, 100); // Adjust typing speed here
+            } else {
+                setTimeout(() => {
+                    erase2();
+                }, 2000); // Pause before erasing
+            }
+        }
+    
+        function erase2() {
+            if (charIndex2 > 0) {
+                typingElement2.textContent = phrases2[phraseIndex2].substring(0, charIndex2 - 1);
+                charIndex2--;
+                setTimeout(erase2, 50); // Adjust erasing speed here
+            } else {
+                phraseIndex2 = (phraseIndex2 + 1) % phrases2.length;
+                setTimeout(type2, 500); // Pause before typing the next phrase
+            }
+        }
+    </script>
 </body>
 
 </html>

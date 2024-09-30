@@ -1054,10 +1054,4 @@ a#link-shipment:hover, a#link-make-new-shipment:hover {
     color: white !important;
 }
 
-.price-estimate-title {
-    white-space: nowrap; /* Prevents the text from wrapping */
-    overflow: hidden; /* Hides overflow text */
-    display: inline-block; /* Ensures the width is confined to the parent div */
-    width: 100%; /* Allows the text to take full width of the parent div */
-    text-align: center; /* Centers the text within the div */
-}
+
