@@ -21,261 +21,214 @@
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-    <style>
-        .nav-profile-img img {
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .nav-profile-text p {
-            margin: 0;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .nav-profile-text span {
-            font-size: 12px;
-            color: #28a745;
-        }
-    </style>
 </head>
 
-<body>
+<style>
+    select {
+        color: white !important;
+    }
+
+    option {
+        color: black;
+        background-color: white;
+    }
+
+    select:focus {
+        color: white !important;
+    }
+</style>
+
+<body class="warna_bg">
     <!-- Spinner Start -->
     <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        class="show bg-white fixed inset-0 flex items-center justify-center">
         <div class="spinner-border text-orange" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
 
-    <!-- Navbar & Hero Start -->
-    <div class="container-fluid nav-bar px-0 py-0">
-        <div class="container">
-            <nav class="navbar navbar-light py-0">
-                <a href="#" class="navbar-brand">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="img-fluid">
-                </a>
-                <div class="navbar ms-auto">
-                    <a class="text-gradient" href="#"><i class="fas fa-sign-out-alt display-6"></i></a>
+    <!-- Sidebar Start -->
+    <div class="sidebar fixed top-10 left-6 h-5/6 shadow-xl bg_gradient p-2 rounded-3xl">
+        <div class="bg-white w-64 rounded-2xl h-full">
+            <div class="h-full flex flex-col justify-between items-center rounded-3xl py-12">
+                <div class="flex flex-col justify-around items-center">
+                    <div class="">
+                        <a href="/" class="navbar-brand mb-4">
+                            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="w-44">
+                        </a>
+                    </div>
+                    <div class="mb-4 bg_gradient rounded-full w-full flex justify-center items-center h-12 px-4 text-white transition transform hover:scale-110 hover:text-black ease-in-out duration-300 delay-50">
+                        <a href="#shipment" class="anek-latin-extrabold text-xl" id="link-shipment">Tabel Pengiriman</a>
+                    </div>
+                    <div class="mb-8 bg_gradient rounded-full w-full flex justify-center items-center h-12 px-4 text-white transition transform hover:scale-110 hover:text-black ease-in-out duration-300 delay-50">
+                        <a href="#make-new-shipment" class="anek-latin-extrabold text-xl hover:text-black" id="link-make-new-shipment">Input Pengiriman</a>
+                    </div>
+                    
                 </div>
-            </nav>
-        </div>
-    </div>
-    <!-- Navbar & Hero End -->
-
-    <!-- Home page start -->
-    <div class="container-fluid bg-white py-0">
-        <div class="container py-2">
-            <div class="col-md-12 col-lg-12 text-center">
-                <span class="fw-bold">Hello, {{ session.get('nama_lengkap', 'user') }}</span>
-                <h1 class="display-5 fw-light mb-2">WELCOME TO <span class="text-gradient fw-bold d-inline">SIXPRESS</span>
-                </h1>
+                
+                <div class="">
+                    <a class="text-hitamgelap" href="/"><i class="fas fa-sign-out-alt display-6"></i></a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- home page End -->
+    <!-- Sidebar End -->
 
-    <section id="shipment">
-        <!-- Shipment Tracking and Shipping Form Start -->
-        <div class="container-fluid bg-light shipment-section py-2">
-            <div class="container py-5">
-                <div class="row g-5 flex flex-col">
-                    <!-- Shipment List Section -->
-                    <div class="col-xl-6 wow fadeInLeft w-full" data-wow-delay="0.2s">
-                        <div class="shipment-list-content bg-white rounded p-5 h-100 shadow">
-                            <h1 class="display-6 mb-4">Your Shipments</h1>
+    <!-- Content Start -->
+    <div class="content ml-64 p-5">
+        <!-- Home page start -->
+        <div class="px-2">
+            <div class="container bg_gradient rounded-2xl py-4 w-full shadow-xl">
+                <div class="col-md-12 col-lg-12 text-center text-white">
+                    <span class="fw-bold">Hello, {{ session.get('nama_lengkap', 'user') }}</span>
+                    <h1 class="display-5 fw-light text-white mt-2">WELCOME TO <span class="bg-white fw-bold d-inline px-4 rounded-xl text-yellow-600">SIXPRESS</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <!-- home page End -->
 
-                            <!-- Shipment Table -->
-                            <table class="table text-center">
-                                <thead>
-                                    <tr>
-                                        <td>ID Log</td>
-                                        <th>Berat</th>
-                                        <th>Harga Pengiriman</th>
-                                        <th>Kota Asal</th>
-                                        <th>Kota Tujuan</th>
-                                        <th>Lama Pengiriman</th>
-                                        <th>No Resi</th>
-                                        <th>Quantity</th>
-                                        <th>Status</th>
-                                        <th>Tanggal Pembelian</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data-table-body">
-                                    <!-- Shipment rows will be loaded via JavaScript -->
-                                </tbody>
-                            </table>
+        <section id="shipment">
+            <!-- Shipment Tracking and Shipping Form Start -->
+            <div class="shipment-section">
+                <div class="container py-5">
+                    <div class="row g-5 flex flex-col">
+                        <!-- Shipment List Section -->
+                        <div class="col-xl-6 wow fadeInLeft w-full" data-wow-delay="0.2s">
+                            <div class="shipment-list-content bg-white rounded p-5 h-100 shadow">
+                                <h1 class="display-6 mb-4">Your Shipments</h1>
 
-                            <!-- Pagination -->
-                            <nav>
-                                <ul class="pagination justify-content-center" id="pagination">
-                                    <!-- Pagination content will be handled via JavaScript -->
-                                </ul>
-                            </nav>
+                                <!-- Search Input -->
+                                <div class="mb-4">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Search by Log ID or Origin City" oninput="searchShipments()">
+                                </div>
+
+                                <!-- Shipment Table -->
+                                <div class="table-responsive">                            
+                                    <table class="table text-center w-full">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Log</th>
+                                                <th>Berat/kg</th>
+                                                <th>Harga_Pengiriman</th>
+                                                <th>Kota_Asal</th>
+                                                <th>Kota_Tujuan</th>
+                                                <th>Lama_Pengiriman</th>
+                                                <th>No_Resi</th>
+                                                <th>Status_Pengiriman</th>
+                                                <th>Tanggal_Pembelian</th>
+                                                <th>Aksi_Update_Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data-table-body" class="">
+                                            <!-- Shipment rows will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav class="mt-4">
+                                    <ul class="pagination justify-content-center" id="pagination">
+                                        <!-- Pagination content will be handled via JavaScript -->
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Shipping Form Section -->
-                    <div class="col-xl-6 wow fadeInRight w-full" data-wow-delay="0.2s">
-                        <div class="shipping-form-content bg-white rounded p-5 h-100 shadow">
-                            <h1 class="display-6 mb-4">Make New Shipment</h1>
 
-                            <!-- Shipping Form -->
-                            <form id="shippingForm" action="javascript:void(0);">
-                                <div class="mb-3">
-                                    <label for="idPembelian" class="form-label">Purchase ID</label>
-                                    <input type="text" class="form-control" id="idPembelian"
-                                        placeholder="Enter Purchase ID" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="namaPengirim" class="form-label">Sender Name</label>
-                                    <input type="text" class="form-control" id="namaPengirim"
-                                        placeholder="Enter Sender Name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="kotaSupplier" class="form-label">Supplier City</label>
-                                    <input type="text" class="form-control" id="kotaSupplier"
-                                        placeholder="Enter Supplier City" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="kotaTujuan" class="form-label">Destination City</label>
-                                    <input type="text" class="form-control" id="kotaTujuan"
-                                        placeholder="Enter Destination City" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="packageWeight" class="form-label">Package Weight (kg)</label>
-                                    <input type="number" class="form-control" id="packageWeight"
-                                        placeholder="Enter Package Weight" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="quantity" class="form-label">Number of Packages</label>
-                                    <input type="number" class="form-control" id="quantity"
-                                        placeholder="Enter Number of Packages" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary py-2 px-4">Send Package</button>
-                            </form>
+                        <!-- Shipping Form Section -->
+                        <div class="col-xl-6 wow fadeInRight w-full" data-wow-delay="0.2s" id="make-new-shipment">
+                            <div class="shipping-form-content bg-white rounded p-5 h-100 shadow">
+                                <h1 class="display-6 mb-4">Make New Shipment</h1>
+
+                                <!-- Shipping Form -->
+                                <form id="shippingForm" action="javascript:void(0);" onsubmit="submitShipment();">
+                                    <div class="mb-3">
+                                        <label for="berat" class="form-label">Weight (kg)</label>
+                                        <input type="number" class="form-control" id="berat" placeholder="Enter Weight" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hargaPengiriman" class="form-label">Shipping Price</label>
+                                        <input type="number" class="form-control" id="hargaPengiriman" placeholder="Enter Shipping Price" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="idLog" class="form-label">Log ID</label>
+                                        <input type="number" class="form-control" id="idLog" placeholder="Enter Log ID" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="kotaAsal" class="form-label">Origin City</label>
+                                        <input type="text" class="form-control" id="kotaAsal" placeholder="Enter Origin City" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="kotaTujuan" class="form-label">Destination City</label>
+                                        <input type="text" class="form-control" id="kotaTujuan" placeholder="Enter Destination City" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lamaPengiriman" class="form-label">Shipping Duration</label>
+                                        <input type="text" class="form-control" id="lamaPengiriman" placeholder="Enter Shipping Duration" required>
+                                    </div>
+                                    <!-- <div class="mb-3">
+                                        <label for="noResi" class="form-label">Tracking Number</label>
+                                        <input type="text" class="form-control" id="noResi" placeholder="Enter Tracking Number" required>
+                                    </div> -->
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label">Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <input type="text" class="form-control" id="status" value="On Progress" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tanggalPembelian" class="form-label">Purchase Date</label>
+                                        <input type="date" class="form-control" id="tanggalPembelian" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary py-2 px-4">Send Package</button>
+                                </form>                            
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Success Modal -->
-                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="successModalLabel">Shipment Success</h5>
-                                </div>
-                                <div class="modal-body">
-                                    Your shipment has been successfully created!
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary py-2 px-4"
-                                        data-bs-dismiss="modal">Close</button>
+                        <!-- Success Modal -->
+                        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="successModalLabel">Shipment Success</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        Your shipment has been successfully created!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary py-2 px-4"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Shipment Tracking and Shipping Form End -->
-    </section>
+            <!-- Shipment Tracking and Shipping Form End -->
+        </section>
+    </div>
+    <!-- Content End -->
 
     <script>
-        const itemsPerPage = 10;
-        let currentPage = 1;
-        let shipments = [];
-
-        async function fetchData() {
-            const spinner = document.getElementById('spinner');
-            spinner.classList.add('show'); // Show spinner
-
-            try {
-                const response = await fetch('/api/distributors6/tb_fix_kirim_distributor');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                shipments = await response.json();
-                renderShipments();
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-                alert('Failed to load data. Please check the console for details.');
-            } finally {
-                spinner.classList.remove('show'); // Hide spinner
-            }
-        }
-
-        function renderShipments() {
-            const tbody = document.getElementById('data-table-body');
-            tbody.innerHTML = '';
-
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const paginatedShipments = shipments.slice(start, end);
-
-            paginatedShipments.forEach((shipment) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${shipment.id_log}</td>
-                    <td>${shipment.berat}</td>
-                    <td>${shipment.harga_pengiriman}</td>
-                    <td>${shipment.kota_asal}</td>
-                    <td>${shipment.kota_tujuan}</td>
-                    <td>${shipment.lama_pengiriman}</td>
-                    <td>${shipment.no_resi}</td>
-                    <td>${shipment.quantity}</td>
-                    <td>${shipment.status}</td>
-                    <td>${shipment.tanggal_pembelian}</td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            renderPagination();
-        }
-
-        function renderPagination() {
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = '';
-
-            const totalPages = Math.ceil(shipments.length / itemsPerPage);
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement('li');
-                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                pageItem.innerHTML = `<a class="page-link" href="javascript:void(0);" onclick="changePage(${i})">${i}</a>`;
-                pagination.appendChild(pageItem);
-            }
-        }
-
-        function changePage(page) {
-            currentPage = page;
-            renderShipments();
-        }
-
-        document.getElementById('shippingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const idPembelian = document.getElementById('idPembelian').value;
-            const namaPengirim = document.getElementById('namaPengirim').value;
-            const kotaSupplier = document.getElementById('kotaSupplier').value;
-            const kotaTujuan = document.getElementById('kotaTujuan').value;
-            const packageWeight = document.getElementById('packageWeight').value;
-            const quantity = document.getElementById('quantity').value;
-
+        async function submitShipment() {
             const shipmentData = {
-                id_pembelian: idPembelian,
-                nama_pengirim: namaPengirim,
-                kota_supplier: kotaSupplier,
-                kota_tujuan: kotaTujuan,
-                berat: packageWeight,
-                quantity: quantity
+                berat: document.getElementById('berat').value,
+                harga_pengiriman: document.getElementById('hargaPengiriman').value,
+                id_log: document.getElementById('idLog').value,
+                kota_asal: document.getElementById('kotaAsal').value,
+                kota_tujuan: document.getElementById('kotaTujuan').value,
+                lama_pengiriman: document.getElementById('lamaPengiriman').value,
+                // no_resi: Tidak perlu mengirimkan tracking number
+                quantity: document.getElementById('quantity').value,
+                status: document.getElementById('status').value,
+                tanggal_pembelian: document.getElementById('tanggalPembelian').value
             };
-
-            const spinner = document.getElementById('spinner');
-            spinner.classList.add('show'); // Show spinner
 
             try {
                 const response = await fetch('/api/distributors6/tb_fix_kirim_distributor', {
@@ -287,34 +240,203 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to send shipment');
+                    throw new Error('Failed to create shipment');
+                }
+
+                const result = await response.json();
+                alert(result.message); // Tampilkan pesan sukses
+                document.getElementById('shippingForm').reset(); // Reset form
+                fetchData(); // Reload data setelah pengiriman berhasil
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to create shipment. Please try again.');
+            }
+        }
+    </script>
+
+    <script>
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        let shipments = [];
+
+        // Fetch shipment data
+        async function fetchData() {
+            const spinner = document.getElementById('spinner');
+            spinner.classList.add('show'); // Show spinner
+
+            try {
+                const response = await fetch('/api/distributors6/tb_fix_kirim_distributor');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                shipments = await response.json();
+                shipments.sort((a, b) => new Date(b.tanggal_pembelian) - new Date(a.tanggal_pembelian)); // Sort by latest purchase date
+                renderShipments();
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                alert('Failed to load data. Please check the console for details.');
+            } finally {
+                spinner.classList.remove('show'); // Hide spinner
+            }
+        }
+
+        // Update the renderShipments function to accept filtered shipments
+        function renderShipments(filteredShipments = shipments) {
+            const tbody = document.getElementById('data-table-body');
+            tbody.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedShipments = filteredShipments.slice(startIndex, endIndex);
+
+            paginatedShipments.forEach((shipment) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${shipment.id_log}</td>
+                    <td>${shipment.berat}</td>
+                    <td>${shipment.harga_pengiriman}</td>
+                    <td>${shipment.kota_asal}</td>
+                    <td>${shipment.kota_tujuan}</td>
+                    <td>${shipment.lama_pengiriman}</td>
+                    <td>${shipment.no_resi}</td>
+                    <td>
+                        <select class="form-select" id="status-${shipment.id_log}" onchange="updateStatusColor('${shipment.id_log}')">
+                            <option value="On Progress" ${shipment.status === 'On Progress' ? 'selected' : ''}>On Progress</option>
+                            <option value="On The Way" ${shipment.status === 'On The Way' ? 'selected' : ''}>On The Way</option>
+                            <option value="Arrived" ${shipment.status === 'Arrived' ? 'selected' : ''}>Arrived</option>
+                        </select>
+                    </td>
+                    <td>${shipment.tanggal_pembelian}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="updateShipmentStatus('${shipment.id_log}')">OK</button>
+                        <button class="btn btn-danger" onclick="deleteOrder('${shipment.id_log}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                updateStatusColor(shipment.id_log); // Update color based on status
+            });
+
+            // Render pagination
+            renderPagination(filteredShipments);
+        }
+
+        // Update shipment status
+        async function updateShipmentStatus(id_log) {
+            const newStatus = document.getElementById(`status-${id_log}`).value;
+
+            const shipmentData = {
+                id_log: id_log,
+                status: newStatus
+            };
+
+            try {
+                const response = await fetch(`/api/distributors6/orders/update_status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(shipmentData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update shipment status');
                 }
 
                 const result = await response.json();
                 console.log(result);
-                // Reload the shipment data
-                fetchData();
-                // Show success modal
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
+                alert('Status updated successfully!');
+                fetchData(); // Reload data after successful update
             } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-                alert('Failed to send shipment. Please check the console for details.');
-            } finally {
-                spinner.classList.remove('show'); // Hide spinner
+                console.error('Error updating shipment status:', error);
+                alert('Failed to update shipment status. Please try again.');
             }
-        });
+        }
 
-        // Call the fetchData function when the page loads
+        // Update the renderPagination function to accept filtered shipments
+        function renderPagination(filteredShipments) {
+            const totalPages = Math.ceil(filteredShipments.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.classList.add('page-item');
+                li.innerHTML = `<a class="page-link" href="javascript:void(0);" onclick="goToPage(${i})">${i}</a>`;
+                if (i === currentPage) {
+                    li.classList.add('active');
+                }
+                pagination.appendChild(li);
+            }
+        }
+
+        // Go to page
+        function goToPage(page) {
+            currentPage = page;
+            renderShipments();
+        }
+
+        // Update status color
+        function updateStatusColor(id_log) {
+            const statusElement = document.getElementById(`status-${id_log}`);
+            const status = statusElement.value;
+
+            if (status === 'On Progress') {
+                statusElement.style.backgroundColor = '#287EE3';
+                statusElement.style.color = 'white';
+            } else if (status === 'On The Way') {
+                statusElement.style.backgroundColor = '#F0C149';
+                statusElement.style.color = 'white';
+            } else if (status === 'Arrived') {
+                statusElement.style.backgroundColor = '#49B946';
+                statusElement.style.color = 'white';
+            }
+        }
+
+        // Updated search shipments function
+        function searchShipments() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const filteredShipments = shipments.filter(shipment => {
+                return shipment.id_log.toString().toLowerCase().includes(input) || shipment.kota_asal.toLowerCase().includes(input);
+            });
+            renderShipments(filteredShipments);
+        }
+
         document.addEventListener('DOMContentLoaded', fetchData);
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='lib/lightbox/js/lightbox.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
+    <script>
+        function deleteOrder(id_log) {
+            // Pop-up konfirmasi sebelum delete
+            if (confirm(`Apakah kamu benar-benar ingin menghapus data ${id_log} ini?`)) {
+                // Kirim request POST untuk delete
+                fetch('/api/distributors6/orders/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id_log: id_log }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert(data.message);
+                        // Refresh tabel setelah berhasil dihapus
+                        fetchData(); // Panggil fetchData() untuk reload data
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

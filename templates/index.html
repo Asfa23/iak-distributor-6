@@ -36,7 +36,7 @@
 
 
     <!-- Navbar & Hero Start -->
-    <div class="container-fluid nav-bar px-0 py-0">
+    <div class="container-fluid nav-bar rounded-3xl">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light py-0">
                 <a href="#" class="navbar-brand">
@@ -47,6 +47,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar ms-auto">
+                        <a href="/dashboard" class="nav-item nav-link fw-bolder">DASHBOARD</a>
                         <a href="#carousel" class="nav-item nav-link fw-bolder">HOME</a>
                         <a href="#shipment" class="nav-item nav-link fw-bolder">SHIPMENT</a>
                         <a href="#services" class="nav-item nav-link fw-bolder">SERVICES</a>
@@ -60,7 +61,7 @@
 
     <section id="carousel">
         <!-- Carousel Start -->
-        <div class="header-carousel owl-carousel">
+        <div class="header-carousel owl-carousel p-10 bg-red-600">
             <div class="header-carousel-item">
                 <div class="container-fluid p-0">
                     <div class="row g-0">
@@ -112,23 +113,21 @@
                     <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
                         <div class="tracking-item-content bg-white rounded p-5 h-100">
                             <h4 class="text-orange">Track Your Shipment</h4>
-                            <h1 class="display-4 mb-4">Stay Updated on Your Deliveries</h1>
+                            <h1 class="display-4 mb-4 typing-animation"></h1>
                             <p>Enter your tracking number to get the latest updates on your shipment status</p>
 
                             <!-- Tracking form -->
                             <form id="trackingForm">
                                 <div class="mb-3">
                                     <label for="trackingNumber" class="form-label">Tracking Number</label>
-                                    <input type="text" class="form-control" id="trackingNumber"
-                                        placeholder="Enter your waybill number" required>
+                                    <input type="text" class="form-control" id="trackingNumber" placeholder="Enter your waybill number" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary py-2 px-4">Track
-                                    Shipment</button>
+                                <button type="submit" class="btn btn-primary py-2 px-4">Track Shipment</button>
                             </form>
 
                             <!-- Tracking Result box -->
                             <div id="trackingResult" class="tracking-result-box mt-4" style="display:none;">
-                                <h5>Shipment Status:</h5>
+                                <h2 class="anek-latin-extrabold">Shipment Status:</h2>
                                 <div class="result-box bg-light p-4 rounded">
                                     <p id="trackingStatus" class="fw-bold fs-4 text-center"></p>
                                 </div>
@@ -140,43 +139,29 @@
                     <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
                         <div class="price-check-item-content bg-white rounded p-5 h-100">
                             <h4 class="text-orange">Check Shipping Prices</h4>
-                            <h1 class="display-4 mb-4">Get Price Estimates</h1>
+                            <h1 class="display-4 mb-4 price-estimate-title">Get Price Estimates</h1>
                             <p>Calculate shipping costs based on your package weight, destination, and other details</p>
                             <form id="priceCheckForm">
                                 <div class="mb-3">
-                                    <label for="idPembelian" class="form-label">ID Pembelian</label>
-                                    <input type="text" class="form-control" id="idPembelian"
-                                        placeholder="Enter purchase ID" required>
-                                </div>
-                                <div class="mb-3">
                                     <label for="kotaSupplier" class="form-label">Kota Supplier</label>
-                                    <input type="text" class="form-control" id="kotaSupplier"
-                                        placeholder="Enter supplier city" required>
+                                    <input type="text" class="form-control" id="kotaSupplier" placeholder="Enter supplier city" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="kotaRetail" class="form-label">Kota Retail</label>
-                                    <input type="text" class="form-control" id="kotaRetail"
-                                        placeholder="Enter retail city" required>
+                                    <input type="text" class="form-control" id="kotaRetail" placeholder="Enter retail city" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="packageWeight" class="form-label">Package Weight (kg)</label>
-                                    <input type="number" class="form-control" id="packageWeight"
-                                        placeholder="Enter weight" required>
+                                    <input type="number" class="form-control" id="packageWeight" placeholder="Enter weight" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="quantity" class="form-label">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
-                                        required>
-                                </div>
-                                <button type="submit" class="btn btn-primary py-2 px-4">Check
-                                    Price</button>
+                                <button type="submit" class="btn btn-primary py-2 px-4">Check Price</button>
                             </form>
 
                             <!-- Price Result box -->
                             <div id="priceResult" class="price-result-box mt-4" style="display:none;">
-                                <h5>Estimated Shipping Price:</h5>
+                                <h2 class="anek-latin-extrabold ">Estimated Shipping Price:</h2>
                                 <div class="result-box bg-light p-4 rounded">
-                                    <p id="shippingPrice" class="fw-bold fs-4 text-center"></p>
+                                    <div id="shippingPrice" class="anek-latin-extrabold text-center h-32"></div>
                                 </div>
                             </div>
                         </div>
@@ -186,51 +171,56 @@
         </div>
         <!-- Tracking and Price Check End -->
     </section>
-
     <script>
         // Tracking Form Submission
-        document.getElementById('trackingForm').addEventListener('submit', function (event) {
+        document.getElementById('trackingForm').addEventListener('submit', async function (event) {
             event.preventDefault(); // Prevent form from submitting
-
-            // Dummy tracking status options
-            const trackingStatuses = ["Pending", "On Process", "Delivered"];
 
             // Get the user input
             const trackingNumber = document.getElementById('trackingNumber').value;
 
             if (trackingNumber) {
-                // Randomly select a tracking status from the array
-                const randomStatus = trackingStatuses[Math.floor(Math.random() * trackingStatuses.length)];
+                try {
+                    // Kirim request ke /api/status/<no_resi>
+                    const response = await fetch(`/api/status/${trackingNumber}`);
 
-                // Display the result section
-                document.getElementById('trackingResult').style.display = 'block';
-                document.getElementById('trackingStatus').innerText = randomStatus;
+                    if (!response.ok) {
+                        throw new Error('Nomor resi tidak ditemukan');
+                    }
+
+                    // Parse the JSON response
+                    const result = await response.json();
+
+                    // Display the result section
+                    const trackingResult = document.getElementById('trackingResult');
+                    trackingResult.style.display = 'block';
+
+                    let statusColor;
+                    if (result.status === 'On Progress') {
+                        statusColor = '#287EE3';
+                    } else if (result.status === 'On The Way') {
+                        statusColor = '#F0C149';
+                    } else if (result.status === 'Arrived') {
+                        statusColor = '#49B946';
+                    }
+
+                    trackingResult.innerHTML = `
+                        <div class="result-box bg-light p-4 rounded">
+                            <h2 class="anek-latin-extrabold" style="color: ${statusColor};">Status: ${result.status}</h2>
+                            <p class="anek-latin-extrabold">Lama Pengiriman: ${result.lama_pengiriman}</p>
+                        </div>
+                    `;
+
+                } catch (error) {
+                    // Tampilkan error jika API gagal
+                    alert(`Error: ${error.message}`);
+                }
             } else {
                 alert("Please enter a tracking number.");
             }
         });
-
-        // Price Check Form Submission
-        document.getElementById('priceCheckForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent form from submitting
-
-            // Dummy price calculation
-            const weight = document.getElementById('packageWeight').value;
-            const quantity = document.getElementById('quantity').value;
-
-            if (weight && quantity) {
-                const pricePerKg = 10000; // Example price per kg
-                const estimatedPrice = weight * quantity * pricePerKg;
-
-                // Display the result section
-                document.getElementById('priceResult').style.display = 'block';
-                document.getElementById('shippingPrice').innerText = `Rp ${estimatedPrice.toLocaleString()}`;
-            } else {
-                alert("Please enter the required details.");
-            }
-        });
-
     </script>
+    
 
     <section id="services">
         <!-- Service Advantages Start -->
@@ -371,6 +361,90 @@
 
     <!-- Template Javascript -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        document.getElementById('priceCheckForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Ambil input dari formulir
+            const kotaSupplier = document.getElementById('kotaSupplier').value;
+            const kotaRetail = document.getElementById('kotaRetail').value;
+            const packageWeight = document.getElementById('packageWeight').value;
+
+            // Convert berat menjadi number, karena JSON kirim sebagai string by default
+            const berat = Number(packageWeight);
+
+            try {
+                // Kirim permintaan POST ke API untuk menghitung biaya pengiriman
+                const response = await fetch('/api/calculate-shipping-cost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        kota_asal: kotaSupplier,
+                        kota_tujuan: kotaRetail,
+                        berat: berat // pastikan berat dikirim sebagai angka
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to calculate shipping cost');
+                }
+
+                const result = await response.json();
+                
+                // Tampilkan hasil biaya pengiriman
+                const priceResult = document.getElementById('priceResult');
+                priceResult.style.display = 'block';
+                document.getElementById('shippingPrice').textContent = `Rp ${result.harga_pengiriman}`;
+                
+            } catch (error) {
+                console.error(error);  // Cetak error di console
+                alert(`Error: ${error.message}`);
+            }
+        });
+    </script>
+    <script>
+        const phrases = [
+            "Keep Track of Your Shipments.",
+            "Monitor Your Delivery Progress.",
+            "Stay Informed About Your Packages."
+        ];
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        const typingElement = document.querySelector('.typing-animation');
+    
+        function type() {
+            if (charIndex < phrases[phraseIndex].length) {
+                typingElement.textContent += phrases[phraseIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 100); // Adjust typing speed here
+            } else {
+                setTimeout(() => {
+                    erase();
+                }, 2000); // Pause before erasing
+            }
+        }
+    
+        function erase() {
+            if (charIndex > 0) {
+                typingElement.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 50); // Adjust erasing speed here
+            } else {
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500); // Pause before typing the next phrase
+            }
+        }
+    
+        // Start the typing effect
+        window.onload = () => {
+            type();
+        };
+    </script>
+    
 </body>
 
 </html>

@@ -58,25 +58,25 @@ def get_shipping_duration(kota_asal, kota_tujuan):
 
     # Logika lama pengiriman
     if kota_asal == 'jakarta' and kota_tujuan == 'surabaya':
-        return '2 hari'
+        return '5 hari'
     elif kota_asal == 'jakarta' and kota_tujuan == 'bali':
-        return '3 hari'
+        return '6 hari'
     elif kota_asal == 'jakarta' and kota_tujuan == 'ngawi':
-        return '3 hari'
+        return '4 hari'
     elif kota_asal == 'bandung' and kota_tujuan == 'surabaya':
         return '4 hari'
     elif kota_asal == 'bandung' and kota_tujuan == 'bali':
         return '5 hari'
     elif kota_asal == 'bandung' and kota_tujuan == 'ngawi':
-        return '5 hari'
+        return '3 hari'
     elif kota_asal == 'semarang' and kota_tujuan == 'surabaya':
-        return '4 hari'
+        return '3 hari'
     elif kota_asal == 'semarang' and kota_tujuan == 'bali':
-        return '6 hari'
+        return '4 hari'
     elif kota_asal == 'semarang' and kota_tujuan == 'ngawi':
-        return '5 hari'
+        return '2 hari'
     else:
-        return '10 hari'  # Default untuk rute yang tidak dikenali
+        return '6 hari'  # Default untuk rute yang tidak dikenali
 
 # Fungsi untuk generate dummy data
 def generate_dummy_data():
@@ -169,6 +169,21 @@ def get_distributors():
         distributor_list.append(distributor.to_dict())
     return jsonify(distributor_list)
 
+@app.route('/api/distributors', methods=['GET'])
+def get_distributor():
+    try:
+        # Akses koleksi db_distributor
+        distributor ={
+            "id": "DIS03",
+            "nama_dis": "Distributor 03",
+            "keunggulan": "Murah Meriah",
+            "pemilik": "Kelompok 06",
+            "deskripsi": "Ini merupakan distributor termurah diantara distributor lainnya"
+        }
+        return  jsonify(distributor), 200
+    except Exception as e:
+        return jsonify("FALSE"), 400
+
 # API POST untuk mengecek harga dan menambah data ke tb_input_distributor
 @app.route('/api/distributors6/orders/cek_ongkir', methods=['POST'])
 def cek_harga():
@@ -190,7 +205,7 @@ def cek_harga():
         'id_log': id_log,  # Tambahkan id_log
         'kota_asal': kota_asal,
         'kota_tujuan': kota_tujuan,
-        'quantity': data.get('quantity'),
+        # 'quantity': data.get('quantity'),
         'berat': berat,
         'harga_pengiriman': harga_pengiriman,  # Harga pengiriman sudah dibulatkan
         'lama_pengiriman': lama_pengiriman  # Tambahkan lama_pengiriman
@@ -231,7 +246,7 @@ def fix_kirim():
         'id_log': id_log,  # Tambahkan id_log di sini
         'kota_asal': input_data['kota_asal'],
         'kota_tujuan': input_data['kota_tujuan'],
-        'quantity': input_data['quantity'],
+        # 'quantity': input_data['quantity'],
         'berat': input_data['berat'],
         'harga_pengiriman': harga_pengiriman,  # Tambahkan harga yang sudah dibulatkan
         'status': status,
@@ -268,10 +283,9 @@ def get_status(no_resi):
         return jsonify({'error': 'No resi not found'}), 404
 
 # Route ke tabel
-@app.route('/home')
+@app.route('/dashboard')
 def tabel():
     return render_template('home.html')
-
 
 # API GET untuk mendapatkan daftar distributor
 @app.route('/api/distributors6/tb_fix_kirim_distributor', methods=['GET'])
@@ -281,7 +295,101 @@ def get_tb_fix_kirim_distributor():
     for distributor in distributors:
         distributor_list2.append(distributor.to_dict())
     return jsonify(distributor_list2)
+
+# API GET untuk mendapatkan daftar distributor
+@app.route('/api/distributors6/tb_input_distributor', methods=['GET'])
+def get_tb_input_distributor():
+    distributors = db.collection('tb_input_distributor').stream()
+    distributor_list3 = []
+    for distributor in distributors:
+        distributor_list3.append(distributor.to_dict())
+    return jsonify(distributor_list3)
+
+@app.route('/api/distributors6/orders/update_status', methods=['POST'])
+def update_status():
+    data = request.get_json()
+    id_log = data.get('id_log')
+    new_status = data.get('status')
+
+    # Update status di tb_fix_kirim_distributor
+    distributor_ref = db.collection('tb_fix_kirim_distributor').document(str(id_log))
+
+    # Periksa apakah data distributor ada
+    if not distributor_ref.get().exists:
+        return jsonify({'error': 'Invalid id_log'}), 404
+
+    # Update status
+    distributor_ref.update({
+        'status': new_status
+    })
+
+    return jsonify({'message': 'Status updated successfully', 'id_log': id_log, 'new_status': new_status})
+
+@app.route('/api/distributors6/tb_fix_kirim_distributor', methods=['POST'])
+def create_shipment():
+    data = request.get_json()
     
+    # Generate tracking number
+    tracking_number = generate_tracking_number()
+
+    # Simpan data shipment dengan tracking number
+    new_shipment = {
+        'id_log': data['id_log'],
+        'berat': data['berat'],
+        'harga_pengiriman': data['harga_pengiriman'],
+        'kota_asal': data['kota_asal'].lower(),  # Lowercase kota_asal
+        'kota_tujuan': data['kota_tujuan'].lower(),  # Lowercase kota_tujuan
+        'lama_pengiriman': data['lama_pengiriman'],
+        'no_resi': tracking_number,  # Auto-generated tracking number
+        'quantity': data['quantity'],
+        'status': data['status'],
+        'tanggal_pembelian': data['tanggal_pembelian']
+    }
+
+    # Simpan new_shipment ke database
+    db.collection('tb_fix_kirim_distributor').document(str(data['id_log'])).set(new_shipment)
+    
+    return jsonify({'message': 'Shipment created successfully', 'tracking_number': tracking_number})
+
+@app.route('/api/distributors6/orders/delete', methods=['POST'])
+def delete_order():
+    data = request.get_json()
+    id_log = data.get('id_log')
+
+    # Periksa apakah dokumen dengan id_log ada di tb_fix_kirim_distributor
+    distributor_ref = db.collection('tb_fix_kirim_distributor').document(str(id_log))
+
+    if not distributor_ref.get().exists:
+        return jsonify({'error': 'Invalid id_log'}), 404
+
+    # Hapus dokumen dari tb_fix_kirim_distributor
+    distributor_ref.delete()
+
+    # Hapus juga dari tb_input_distributor jika perlu
+    input_distributor_ref = db.collection('tb_input_distributor').document(str(id_log))
+    input_distributor_ref.delete()
+
+    return jsonify({'message': f'Order with id_log {id_log} deleted successfully'})
+
+@app.route('/api/calculate-shipping-cost', methods=['POST'])
+def api_calculate_shipping_cost():
+    data = request.json
+    kota_asal = data.get('kota_asal')
+    kota_tujuan = data.get('kota_tujuan')
+    berat = data.get('berat')
+
+    print(f'Received data: kota_asal={kota_asal}, kota_tujuan={kota_tujuan}, berat={berat}')  # Untuk debugging
+
+    if not kota_asal or not kota_tujuan or not berat:
+        return jsonify({'error': 'Invalid data'}), 400
+
+    # Hitung harga pengiriman
+    harga_pengiriman = calculate_shipping_cost(kota_asal, kota_tujuan, berat)
+
+    return jsonify({'harga_pengiriman': harga_pengiriman})
+
+
+
 if __name__ == '__main__':
     # generate_dummy_data()  # Generate dummy data saat aplikasi dijalankan
     app.run(debug=True)

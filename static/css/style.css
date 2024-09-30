@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&display=swap');
+
 
 /*** Spinner Start ***/
 #spinner {
@@ -956,4 +958,106 @@
 }
 /*** copyright end ***/
 
+.warna_bg{
+    background-color: #eff2f6;
+}
 
+.bg_gradient {
+    background: rgb(241,214,59);
+    background: linear-gradient(315deg, rgba(241,214,59,1) 0%, rgba(220,53,69,1) 100%);
+}
+
+.text-hitamgelap{
+    color: #16243d;
+}
+
+.border-gradient {
+    border: 5px solid transparent; /* Sesuaikan ketebalan border sesuai kebutuhan */
+    background-image: linear-gradient(315deg, rgba(241, 214, 59, 1) 0%, rgba(220, 53, 69, 1) 100%);
+    background-clip: padding-box; /* Memastikan latar belakang hanya terlihat di dalam padding */
+    border-image: linear-gradient(315deg, rgba(241, 214, 59, 1) 0%, rgba(220, 53, 69, 1) 100%) 1;
+}
+
+.anek-latin-thin{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-extralight{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-light{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-regular{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-medium{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-semibold{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-bold{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+.anek-latin-extrabold{
+    font-family: "Anek Latin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+a#link-shipment:hover, a#link-make-new-shipment:hover {
+    color: white !important;
+}
+
+.price-estimate-title {
+    white-space: nowrap; /* Prevents the text from wrapping */
+    overflow: hidden; /* Hides overflow text */
+    display: inline-block; /* Ensures the width is confined to the parent div */
+    width: 100%; /* Allows the text to take full width of the parent div */
+    text-align: center; /* Centers the text within the div */
+}
