@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import firebase_admin
 from firebase_admin import credentials, firestore
 import random
@@ -8,6 +8,7 @@ import math
 
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Tambahkan secret key untuk session
 
 # Inisialisasi Firebase
 cred = credentials.Certificate('iak6_distributor_key.json')  # Pastikan path benar
@@ -155,10 +156,43 @@ def generate_dummy_data():
 
     print("Dummy data generated successfully!")
 
+# Fungsi untuk generate dummy data user
+def generate_dummy_user_data():
+    user_data = [
+        {'email': 'flask1@gmail.com', 'password': 'flask123'},
+        {'email': 'flask2@gmail.com', 'password': 'flask123'},
+        {'email': 'flask3@gmail.com', 'password': 'flask123'}
+    ]
+
+    # Simpan dummy data ke user
+    for user in user_data:
+        db.collection('user').document(user['email']).set(user)
+
+    print("Dummy user data generated successfully!")
+
 # Route ke halaman utama (home.html)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# Route ke halaman login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Ambil data user dari Firestore
+        user_ref = db.collection('user').document(email)
+        user = user_ref.get()
+
+        if user.exists and user.to_dict()['password'] == password:
+            session['user'] = email
+            return redirect(url_for('tabel'))
+        else:
+            return render_template('login.html', error='Invalid email or password')
+
+    return render_template('login.html')
 
 # API GET untuk mendapatkan daftar distributor
 @app.route('/api/distributors6', methods=['GET'])
@@ -285,6 +319,8 @@ def get_status(no_resi):
 # Route ke tabel
 @app.route('/dashboard')
 def tabel():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     return render_template('home.html')
 
 # API GET untuk mendapatkan daftar distributor
@@ -388,7 +424,11 @@ def api_calculate_shipping_cost():
 
     return jsonify({'harga_pengiriman': harga_pengiriman})
 
-
+# API POST untuk generate dummy data user
+@app.route('/api/generate_dummy_user', methods=['POST'])
+def api_generate_dummy_user():
+    generate_dummy_user_data()
+    return jsonify({'message': 'Dummy user data generated successfully'})
 
 if __name__ == '__main__':
     # generate_dummy_data()  # Generate dummy data saat aplikasi dijalankan
