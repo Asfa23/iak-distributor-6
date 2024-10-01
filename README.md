@@ -95,3 +95,94 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 Thank you for exploring the Distributor Module of our integrated corporate application! For any inquiries or feedback, please feel free to reach out.
 
 Feel free to customize any sections as needed!
+
+# Distributor 6 API Documentation
+
+## Accessing the Website
+The Distributor 6 system can be accessed through the following link:
+[http://159.223.41.243:8000](http://159.223.41.243:8000)
+
+Users can use this system to retrieve shipping cost information and track the shipment status.
+
+## API Endpoints
+
+1. **[ENDPOINT]** `GET /api/distributors6`
+**Get Distributor Information**:
+This endpoint is used to retrieve general information about the distributor, such as shipping cost per kilogram, origin city, destination city, and estimated delivery time.
+
+   ```bash
+   [
+    {
+        "harga_ongkir_per_kg": 960,
+        "id_distributor": 6,
+        "kota_asal": "bandung",
+        "kota_tujuan": "bali",
+        "lama_pengiriman": "5 hari"
+    },
+    {
+        "harga_ongkir_per_kg": 840,
+        "id_distributor": 6,
+        "kota_asal": "bandung",
+        "kota_tujuan": "ngawi",
+        "lama_pengiriman": "5 hari"
+    }
+   ]
+
+2. **[ENDPOINT]** `POST /api/distributors6/orders/cek_ongkir`
+**Check Shipping Cost (Without Purchase Confirmation)**:
+Suppliers can use this endpoint to check the shipping cost without having to confirm the purchase.
+
+   
+   ```json
+   #Example Input:
+   {
+       "id_log": 102,
+       "kota_asal": "Semarang",
+       "kota_tujuan": "Surabaya",
+       "berat": 5
+   }
+
+
+   #Example Response:
+   {
+    "harga_pengiriman": 4200.0,
+    "id_log": 102,
+    "lama_pengiriman": "4 hari"
+   }
+
+
+3. **[ENDPOINT]** `POST /api/distributors6/orders/fix_kirim`
+**Confirm Shipment**:
+This endpoint is accessed by the supplier when the retail has decided to purchase the product and use Distributor 6's service for the shipment.
+
+   ```bash
+   #Example Input:
+   {
+    "id_log": 800
+   }
+
+   #Example Response:
+   {
+    "harga_pengiriman": 40000,
+    "id_log": 800,
+    "lama_pengiriman": "10 hari",
+    "no_resi": "JJ2Q2H5UDV",
+    "tanggal_pembelian": "2024-09-28"
+   }
+
+
+
+4. **[ENDPOINT]** `GET /api/status/<string:no_resi>`
+**Track Shipment Status**:
+Retailers can use this endpoint to track the status of the shipment by entering the shipping tracking number.
+
+   **Example Request**
+   'GET /api/status/JJ2Q2H5UDV'
+   
+   ```bash
+   #Example Response:
+   {
+    "lama_pengiriman": "4 hari",
+    "status": "On Progress"
+   }
+
