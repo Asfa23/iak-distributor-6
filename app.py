@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, session
+from flask import Flask, request, jsonify, render_template
 import firebase_admin
 from firebase_admin import credentials, firestore
 import random
@@ -8,7 +8,6 @@ import math
 
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Tambahkan secret key untuk session
 
 # Inisialisasi Firebase
 cred = credentials.Certificate('iak6_distributor_key.json')  # Pastikan path benar
@@ -175,25 +174,6 @@ def generate_dummy_user_data():
 def index():
     return render_template('index.html')
 
-# Route ke halaman login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        # Ambil data user dari Firestore
-        user_ref = db.collection('user').document(email)
-        user = user_ref.get()
-
-        if user.exists and user.to_dict()['password'] == password:
-            session['user'] = email
-            return redirect(url_for('tabel'))
-        else:
-            return render_template('login.html', error='Invalid email or password')
-
-    return render_template('login.html')
-
 # API GET untuk mendapatkan daftar distributor
 @app.route('/api/distributors6', methods=['GET'])
 def get_distributors():
@@ -319,8 +299,6 @@ def get_status(no_resi):
 # Route ke tabel
 @app.route('/dashboard')
 def tabel():
-    if 'user' not in session:
-        return redirect(url_for('login'))
     return render_template('home.html')
 
 # API GET untuk mendapatkan daftar distributor
